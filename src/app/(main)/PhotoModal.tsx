@@ -86,14 +86,12 @@ export default function PhotoModal() {
   const mainImageUrl = watch('mainImageUrl');
   const queryClient = useQueryClient();
   async function onSubmit(values: z.infer<typeof PhotoFormSchema>) {
-    console.log(values);
     setCreateButon('Loading');
     const { image, ...rest } = values;
     // upload imgur, if there is change
     if (changeImage) {
       try {
         const imgur = await uploadImgur(rest.mainImage);
-        console.log(imgur);
         if (imgur.status === 200) {
           rest.mainImageUrl = imgur.data.link;
         } else {
@@ -116,6 +114,9 @@ export default function PhotoModal() {
     onSuccess(data: PostCreateState) {
       if (data === 'sucess') {
         setCreateButon('Success');
+        setTimeout(() => {
+          setOpen(false);
+        }, 2000);
         return;
       }
       setCreateButon('Error');
@@ -124,8 +125,9 @@ export default function PhotoModal() {
       setCreateButon('Error');
     },
   });
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>添加图片</Button>
       </DialogTrigger>
