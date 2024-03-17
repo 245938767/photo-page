@@ -129,9 +129,13 @@ export default function PhotoModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>添加图片</Button>
+        <Button
+          variant="secondary"
+                className=" bg-transparent px-4 py-2.5 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
+        >
+          添加图片
+        </Button>
       </DialogTrigger>
-
       <DialogContent className="bg-slate-50	 dark:bg-black	 sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>添加图片</DialogTitle>
