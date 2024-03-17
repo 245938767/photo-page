@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { cn } from '@udecode/cn';
+
+import { clsxm } from '@/lib/helper';
 
 const DataGrowthCard = React.forwardRef<
   HTMLDivElement,
@@ -7,7 +8,7 @@ const DataGrowthCard = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
+    className={clsxm(
       'rounded-lg border bg-card p-4 text-card-foreground shadow-sm',
       className
     )}
@@ -22,7 +23,7 @@ const DataGrowthCardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
+    className={clsxm(
       'flex flex-row items-center justify-between space-y-0 ',
       className
     )}
@@ -37,7 +38,7 @@ const DataGrowthCardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn(
+    className={clsxm(
       'text-sm font-semibold leading-none tracking-tight',
       className
     )}
@@ -52,7 +53,7 @@ const DataGrowthCardIcon = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn('  text-muted-foreground', className)}
+    className={clsxm('  text-muted-foreground', className)}
     {...props}
   />
 ));
@@ -64,7 +65,7 @@ const DataGrowthCardContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
+    className={clsxm(
       ' py-3  text-2xl font-semibold leading-none tracking-tight',
       className
     )}
@@ -79,7 +80,7 @@ const DataGrowthCardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(' flex items-center pt-0 text-xs', className)}
+    className={clsxm(' flex items-center pt-0 text-xs', className)}
     {...props}
   />
 ));
