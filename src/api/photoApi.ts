@@ -6,12 +6,20 @@ import prismaClient from '@/lib/prisma';
 export async function getPhotos(
   slug: string,
   page: number = 0,
-  pageCount: number = 10
+  pageCount: number = 18
 ): Promise<any[]> {
+  // const orders = await prismaClient.$queryRaw<
+  //   Photo[]
+  // >`SELECT * FROM Photo WHERE slug LIKE '% ${slug} %' limit ${pageCount} offset ${page * pageCount};`;
+
   return await prismaClient.photo.findMany({
     skip: page * pageCount,
     take: pageCount,
-    where: {},
+    where: {
+      slug: {
+        contains: slug,
+      },
+    },
   });
 }
 

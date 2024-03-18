@@ -1,19 +1,17 @@
-'use client';
-
-import { proxy, useSnapshot } from 'valtio';
+import { proxy } from 'valtio';
 
 export type photoFilter = {
   slug: string;
   page: number;
   pageSize: number;
 };
+
+export const state = proxy<photoFilter>({
+  slug: '',
+  page: 0,
+  pageSize: 100,
+});
 function useFilter() {
-  const state = proxy<photoFilter>({
-    slug: '',
-    page: 0,
-    pageSize: 100,
-  });
-  const filter = useSnapshot(state);
   const next = () => {
     state.page = state.page + 1;
   };
@@ -25,7 +23,7 @@ function useFilter() {
     state.slug = '';
   };
 
-  return { filter, state, next, reset, resetFilter };
+  return { state, next, reset, resetFilter };
 }
 
 export default useFilter;

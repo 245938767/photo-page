@@ -7,18 +7,19 @@ import {
   useMotionTemplate,
   useMotionValue,
 } from 'framer-motion';
+import { useSnapshot } from 'valtio';
 
 import { clsxm } from '@/lib/helper';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
 
-import useFilter from './useFilter';
+import useFilter, { state } from './useFilter';
 
 function Desktop({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const { state } = useFilter();
+  const filter = useSnapshot(state);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const radius = useMotionValue(0);
@@ -62,7 +63,6 @@ function Desktop({
               'rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90'
             )}
             placeholder="请输入图片关键字"
-            value={state.slug}
             onChange={(e) => {
               state.slug = e.target.value;
             }}
