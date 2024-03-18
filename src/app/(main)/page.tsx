@@ -37,7 +37,7 @@ export default function HomePage() {
       </Container>
       <Container className="mt-24 md:mt-28">
         <ResponsiveMasonry
-          columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1100: 4, 1400: 5 }}
+          columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1100: 4, 1500: 5 }}
         >
           <Masonry>
             {dataList?.map((image, index) => {
