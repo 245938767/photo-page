@@ -24,7 +24,6 @@ export default function HomePage() {
   useEffect(() => {
     const handleScroll = () => {
       console.log(isLoadingMore, dataList.length, filter);
-
       if (isLoadingMore) {
         return;
       }
@@ -34,8 +33,8 @@ export default function HomePage() {
       }
 
       if (
-        window.innerHeight + document.documentElement.scrollTop  >=
-        document.documentElement.offsetHeight
+        document.documentElement.scrollHeight - document.documentElement.offsetHeight-50  <=
+        document.documentElement.scrollTop
       ) {
         loadMore();
       }
@@ -52,21 +51,27 @@ export default function HomePage() {
 
   const fetchPhotoNew = async () => {
     try {
+      console.log("create New Data")
+      console.log(isLoadingMore, dataList.length, filter);
       const result = await getPhotos(filter.slug, filter.page, filter.pageSize);
       result && setDataList(result);
-      totals.slug = false;
     } catch (error) {
       console.error(error);
+    }finally{
+
+      totals.slug = false;
     }
   };
   const fetchPhotoNext = async () => {
     try {
+      console.log('Create Next Data')
       const result = await getPhotos(filter.slug, filter.page, filter.pageSize);
-      console.log(result);
       result && setDataList([...dataList, ...result]);
-      setIsLoadingMore(false);
     } catch (error) {
       console.error(error);
+    }finally{
+
+      setIsLoadingMore(false);
     }
   };
   useEffect(() => {
@@ -76,6 +81,7 @@ export default function HomePage() {
       fetchPhotoNew();
     }
   }, [data, isLoadingMore, slug]);
+
   useEffect(() => {
     totals.slug = true;
     state.page = 0;
