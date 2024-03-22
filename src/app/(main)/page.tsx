@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { getPhotos } from '@/api/photoApi';
 import { Photo } from '@prisma/client';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { proxy, useSnapshot } from 'valtio';
 
 import { Container } from '../../components/ui/Container';
@@ -11,6 +10,7 @@ import { Headline } from './Headline';
 import { Photos } from './Photos';
 import { state } from './useFilter';
 import { usePhotoQuery } from './usePhoto';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 const totals = proxy({
   slug: true,
