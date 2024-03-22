@@ -1,4 +1,3 @@
-'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -19,6 +18,7 @@ export function Photos(photo: Photo) {
           } as React.CSSProperties
         }
       >
+
         <div className="relative aspect-[240/135] ">
           <Image
             src={photo.mainImageUrl}

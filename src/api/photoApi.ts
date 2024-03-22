@@ -20,7 +20,7 @@ export async function getPhotos(
   page: number = 0,
   pageCount: number = 4
 ): Promise<any[]> {
-  return await prismaClient.photo.findMany({
+  const data= await prismaClient.photo.findMany({
     skip: page * pageCount,
     take: pageCount,
     where: {
@@ -29,6 +29,10 @@ export async function getPhotos(
       },
     },
   });
+  data.map((x:any)=>{
+    x.mainImage=x.mainImage.toString();
+  });
+  return data;
 }
 
 type PostCreateState = 'error' | 'sucess' | 'database error';

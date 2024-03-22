@@ -18,7 +18,7 @@ const totals = proxy({
 export default function HomePage() {
   const filter = useSnapshot(state);
   const [dataList, setDataList] = useState<Photo[]>([]);
-  const { data, isLoading, isPending } = usePhotoQuery(filter);
+  const { data,isLoading} = usePhotoQuery(filter);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const { slug } = useSnapshot(totals);
   useEffect(() => {
