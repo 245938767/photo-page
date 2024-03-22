@@ -23,7 +23,6 @@ export default function HomePage() {
   const { slug } = useSnapshot(totals);
   useEffect(() => {
     const handleScroll = () => {
-      console.log(isLoadingMore, dataList.length, filter);
       if (isLoadingMore) {
         return;
       }
@@ -49,36 +48,21 @@ export default function HomePage() {
     state.page = state.page + 1;
   };
 
-  const fetchPhotoNew = async () => {
-    try {
-      console.log("create New Data")
-      console.log(isLoadingMore, dataList.length, filter);
-      const result = await getPhotos(filter.slug, filter.page, filter.pageSize);
-      result && setDataList(result);
-    } catch (error) {
-      console.error(error);
-    }finally{
-
-      totals.slug = false;
-    }
-  };
-  const fetchPhotoNext = async () => {
-    try {
-      console.log('Create Next Data')
-      const result = await getPhotos(filter.slug, filter.page, filter.pageSize);
-      result && setDataList([...dataList, ...result]);
-    } catch (error) {
-      console.error(error);
-    }finally{
-
-      setIsLoadingMore(false);
-    }
-  };
   useEffect(() => {
-    if (isLoadingMore) {
-      fetchPhotoNext();
+    if (isLoadingMore && !slug) {
+      getPhotos(filter.slug, filter.page, filter.pageSize).then((result)=>{
+        result && setDataList((prevItems=>[...prevItems, ...result]));
+      }).finally(()=>{
+      setIsLoadingMore(false);
+      });
     } else if (slug) {
-      fetchPhotoNew();
+    setIsLoadingMore(true);
+       getPhotos(filter.slug, filter.page, filter.pageSize).then((result)=>{
+        result && setDataList(result);
+       }).finally(()=>{
+    setIsLoadingMore(false);
+      totals.slug = false;
+       })
     }
   }, [data, isLoadingMore, slug]);
 

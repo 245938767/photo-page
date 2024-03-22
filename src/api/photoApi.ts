@@ -20,7 +20,6 @@ export async function getPhotos(
   page: number = 0,
   pageCount: number = 4
 ): Promise<any[]> {
-  console.log(page, pageCount);
   return await prismaClient.photo.findMany({
     skip: page * pageCount,
     take: pageCount,
