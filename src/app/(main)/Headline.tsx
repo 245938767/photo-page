@@ -41,7 +41,7 @@ function OCD() {
 export function Headline() {
   return (
     <div className="max-w-2xl">
-      <motion.h1
+      {/* <motion.h1
         className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -55,8 +55,8 @@ export function Headline() {
         <Developer />，<Designer />，
         <br />
         <OCD />
-      </motion.h1>
-      <motion.p
+      </motion.h1> */}
+      {/* <motion.p
         className="mt-6 text-base text-zinc-600 dark:text-zinc-400"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -73,7 +73,7 @@ export function Headline() {
           <br />
           一名软件工程师。
         </Balancer>
-      </motion.p>
+      </motion.p> */}
     </div>
   );
 }

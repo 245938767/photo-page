@@ -3,15 +3,24 @@
 import { ImageToBlue } from '@/lib/imageBlue';
 import prismaClient from '@/lib/prisma';
 
+export async function getPhotoConut(slug?: string) {
+  return await prismaClient.photo.count({
+    select: {
+      _all: true,
+    },
+    where: {
+      slug: {
+        contains: slug,
+      },
+    },
+  });
+}
 export async function getPhotos(
-  slug: string,
+  slug?: string,
   page: number = 0,
-  pageCount: number = 18
+  pageCount: number = 4
 ): Promise<any[]> {
-  // const orders = await prismaClient.$queryRaw<
-  //   Photo[]
-  // >`SELECT * FROM Photo WHERE slug LIKE '% ${slug} %' limit ${pageCount} offset ${page * pageCount};`;
-
+  console.log(page, pageCount);
   return await prismaClient.photo.findMany({
     skip: page * pageCount,
     take: pageCount,

@@ -9,7 +9,7 @@ export type photoFilter = {
 export const state = proxy<photoFilter>({
   slug: '',
   page: 0,
-  pageSize: 100,
+  pageSize: 4,
 });
 function useFilter() {
   const next = () => {
@@ -17,7 +17,7 @@ function useFilter() {
   };
   const reset = () => {
     state.page = 0;
-    state.pageSize = 100;
+    state.pageSize = 4;
   };
   const resetFilter = () => {
     state.slug = '';

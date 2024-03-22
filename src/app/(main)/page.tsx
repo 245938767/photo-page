@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { getPhotos } from '@/api/photoApi';
 import { Photo } from '@prisma/client';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { useSnapshot } from 'valtio';
+import { proxy, useSnapshot } from 'valtio';
 
 import { Container } from '../../components/ui/Container';
 import { Headline } from './Headline';
@@ -11,24 +12,74 @@ import { Photos } from './Photos';
 import { state } from './useFilter';
 import { usePhotoQuery } from './usePhoto';
 
+const totals = proxy({
+  slug: true,
+});
 export default function HomePage() {
   const filter = useSnapshot(state);
   const [dataList, setDataList] = useState<Photo[]>([]);
-  const { data, isLoading } = usePhotoQuery(filter);
+  const { data, isLoading, isPending } = usePhotoQuery(filter);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const { slug } = useSnapshot(totals);
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
-        state.page = state.page + 1;
+      console.log(isLoadingMore, dataList.length, filter);
+
+      if (isLoadingMore) {
+        return;
+      }
+
+      if (filter.page * filter.pageSize > dataList.length) {
+        return;
+      }
+
+      if (
+        window.innerHeight + document.documentElement.scrollTop  >=
+        document.documentElement.offsetHeight
+      ) {
+        loadMore();
       }
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [isLoadingMore, dataList.length]);
+  const loadMore = async () => {
+    setIsLoadingMore(true);
+    state.page = state.page + 1;
+  };
+
+  const fetchPhotoNew = async () => {
+    try {
+      const result = await getPhotos(filter.slug, filter.page, filter.pageSize);
+      result && setDataList(result);
+      totals.slug = false;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const fetchPhotoNext = async () => {
+    try {
+      const result = await getPhotos(filter.slug, filter.page, filter.pageSize);
+      console.log(result);
+      result && setDataList([...dataList, ...result]);
+      setIsLoadingMore(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    data && setDataList([...dataList, ...data]);
-  }, [data]);
+    if (isLoadingMore) {
+      fetchPhotoNext();
+    } else if (slug) {
+      fetchPhotoNew();
+    }
+  }, [data, isLoadingMore, slug]);
+  useEffect(() => {
+    totals.slug = true;
+    state.page = 0;
+  }, [filter.slug]);
 
   return (
     <>
@@ -45,7 +96,10 @@ export default function HomePage() {
             })}
           </Masonry>
         </ResponsiveMasonry>
-        {isLoading && '正在加载'}
+        {isLoadingMore && <div className="mt-2 text-center">加载中...</div>}
+        {filter.page * filter.pageSize > dataList.length && !isLoadingMore && (
+          <div className="mt-2 text-center">没有更多了</div>
+        )}
       </Container>
     </>
   );

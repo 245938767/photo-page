@@ -6,7 +6,6 @@ export const uploadImgur = async (image: any) => {
   }
   fd.append('image', image);
   fd.append('type', 'base64');
-  console.log(fd);
   const response = await fetch('https://api.imgur.com/3/image', {
     method: 'POST',
     headers: {
@@ -15,7 +14,6 @@ export const uploadImgur = async (image: any) => {
     body: fd,
     redirect: 'follow',
   });
-  console.log(response);
   const data = await response.json();
   return data;
 };

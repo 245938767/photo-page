@@ -29,7 +29,7 @@ export async function Footer() {
             <div className="mx-auto mb-8 max-w-md"></div>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
               <p className="text-sm text-zinc-500/80 dark:text-zinc-400/80">
-                &copy; {new Date().getFullYear()} Larthur. Copy： GitHub
+                &copy; {new Date().getFullYear()} Larthur. GitHub
               </p>
             </div>
           </Container.Inner>

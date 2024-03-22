@@ -30,6 +30,8 @@ import {
 import { Input } from '@/components/ui/input';
 import SubmitButton from '@/components/ui/SubmitButton';
 
+import { useRefetchPhoto } from './usePhoto';
+
 export default function PhotoModal() {
   const PhotoFormSchema = z.object({
     id: z.number().optional(),
@@ -114,6 +116,7 @@ export default function PhotoModal() {
     onSuccess(data: PostCreateState) {
       if (data === 'sucess') {
         setCreateButon('Success');
+        refetchPhoto();
         setTimeout(() => {
           setOpen(false);
         }, 2000);
@@ -126,12 +129,14 @@ export default function PhotoModal() {
     },
   });
   const [open, setOpen] = useState(false);
+
+  const refetchPhoto = useRefetchPhoto();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="secondary"
-                className=" bg-transparent px-4 py-2.5 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
+          className=" bg-transparent px-4 py-2.5 text-sm font-medium hover:text-lime-600 dark:hover:text-lime-400"
         >
           添加图片
         </Button>
